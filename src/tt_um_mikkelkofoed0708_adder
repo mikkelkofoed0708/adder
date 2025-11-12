@@ -1,0 +1,26 @@
+// 4-bit + 4-bit adder til Tiny Tapeout
+// ui_in[3:0]  = A (4 bit)
+// ui_in[7:4]  = B (4 bit)
+// uo_out[4:0] = SUM (5 bit: carry + 4 bit)
+// resten af outputs = 0
+
+module tt_um_mikkelkofoed0708_adder (
+    input  [7:0] ui_in,
+    output [7:0] uo_out,
+    input  [7:0] uio_in,
+    output [7:0] uio_out,
+    output [7:0] uio_oe,
+    input        ena,
+    input        clk,
+    input        rst_n
+);
+    wire [3:0] A = ui_in[3:0];
+    wire [3:0] B = ui_in[7:4];
+
+    wire [4:0] SUM = A + B;  // 5-bit for at rumme carry
+
+    // Læg SUM på uo_out[4:0], nul resten
+    assign uo_out  = {3'b000, SUM}; // [7:5]=0, [4:0]=SUM
+    assign uio_out = 8'b0;
+    assign uio_oe  = 8'b0;
+endmodule
